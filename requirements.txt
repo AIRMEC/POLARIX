@@ -1,0 +1,15 @@
+h5py
+numpy
+openslide-python
+torch==2.4.1
+timm
+Pillow
+shapely
+torchvision==0.19.1
+huggingface-hub
+opencv-python
+pandas
+joblib
+scikit-learn
+matplotlib
+tensorboard
