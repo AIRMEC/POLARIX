@@ -13,7 +13,16 @@ from torch.utils.data import (
 
 from sklearn.utils.class_weight import compute_sample_weight
 
-from POLARIX import INPUT_FEATURE_SIZE
+from POLARIX import INPUT_FEATURE_SIZE, POLARIX
+
+
+def load_trained_model(device, checkpoint_path):
+    model = POLARIX().to(device)
+    model.load_state_dict(
+        torch.load(checkpoint_path, map_location=device, weights_only=True), strict=True
+    )
+    model.eval()
+    return model
 
 
 def seed_worker(worker_id):

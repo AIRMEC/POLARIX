@@ -146,15 +146,6 @@ def get_tile(slide, rect):
     return tile
 
 
-def load_trained_model(device, checkpoint_path):
-    print("Using POLARIX default architecture settings.")
-    print(f"Fixed input feature size: {INPUT_FEATURE_SIZE}")
-    model = POLARIX().to(device)
-    model.load_state_dict(torch.load(checkpoint_path, map_location=device), strict=True)
-    model.eval()
-    return model
-
-
 def read_data(features_path):
     with h5py.File(features_path, "r") as hdf5_file:
         features = hdf5_file["features"][:]

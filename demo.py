@@ -9,11 +9,11 @@ import matplotlib.pyplot as plt
 from matplotlib.gridspec import GridSpec
 from typing import List
 import joblib
+from utils import load_trained_model
 from heatmap_utils import (
     build_scoremap,
     get_display_image,
     get_tile,
-    load_trained_model,
     predict_attention_matrix,
     read_data,
     scale_rectangles,
@@ -151,28 +151,28 @@ def main(args):
     output_root = os.path.abspath(args.output_dir)
     os.makedirs(output_root, exist_ok=True)
 
-    print(f"Predicting attention map for {args.input_slide}")
+    print(f"Predicting attention map for {args.slide}")
 
-    slide_id, _ = os.path.splitext(os.path.basename(args.input_slide))
+    slide_id, _ = os.path.splitext(os.path.basename(args.slide))
     slide_dir = os.path.join(output_root, slide_id)
     os.makedirs(slide_dir, exist_ok=True)
 
     # Load the trained POLARIX model
-    if not os.path.isfile(args.checkpoint_POLARIX_model):
-        raise Exception(f"checkpoint {args.checkpoint_POLARIX_model} is not a file")
-    print("loading checkpoints '{}'".format(args.checkpoint_POLARIX_model))
+    if not os.path.isfile(args.checkpoint):
+        raise Exception(f"checkpoint {args.checkpoint} is not a file")
+    print("loading checkpoints '{}'".format(args.checkpoint))
 
-    model = load_trained_model(device, args.checkpoint_POLARIX_model)
+    model = load_trained_model(device, args.checkpoint)
 
-    wsi = openslide.open_slide(args.input_slide)
+    wsi = openslide.open_slide(args.slide)
 
     # Get the display image and scale factor
     display_level = min(args.display_level, len(wsi.level_dimensions) - 1)
     display_image, scale_factor = get_display_image(wsi, display_level)
-    if not os.path.isfile(args.features_path):
-        raise Exception(f"feature bag {args.features_path} is not a file")
+    if not os.path.isfile(args.features):
+        raise Exception(f"feature bag {args.features} is not a file")
 
-    features, coords = read_data(args.features_path)
+    features, coords = read_data(args.features)
 
     if isinstance(features, np.ndarray):
         features = torch.from_numpy(features).float()
@@ -267,7 +267,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="Attention heatmap generation script")
     parser.add_argument(
-        "--input_slide",
+        "--slide",
         type=str,
         help="Path to input WSI file",
         required=True,
@@ -279,13 +279,13 @@ if __name__ == "__main__":
         default="./results",
     )
     parser.add_argument(
-        "--features_path",
+        "--features",
         type=str,
         help="Path to the precomputed feature bag (.h5) for this slide",
         required=True,
     )
     parser.add_argument(
-        "--checkpoint_POLARIX_model",
+        "--checkpoint",
         type=str,
         help="Attention model checkpoint",
         required=True,

@@ -4,7 +4,6 @@ import torch
 from sklearn.metrics import roc_auc_score
 import joblib
 
-from POLARIX import POLARIX, INPUT_FEATURE_SIZE
 from utils import *
 
 
@@ -20,11 +19,7 @@ def main(args):
 
     device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
 
-    print(f"Using fixed input feature size: {INPUT_FEATURE_SIZE}")
-    model = POLARIX().to(device)
-    model.load_state_dict(
-        torch.load(args.checkpoint_POLARIX_model, map_location=device), strict=True
-    )
+    model = load_trained_model(device, args.checkpoint)
     print(f"Finished loading POLARIX in {(time.time() - start_time):.2f}s")
 
     model.eval()
@@ -73,7 +68,7 @@ if __name__ == "__main__":
         help="CSV file of test set listing all work_ids, slides, and labels",
     )
     parser.add_argument(
-        "--checkpoint_POLARIX_model",
+        "--checkpoint",
         type=str,
         help="path to POLARIX model checkpoint",
     )

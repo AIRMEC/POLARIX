@@ -46,7 +46,7 @@ The model weights are downloaded directly from Hugging Face (`bioptimus/H-optimu
 
 ```bash
 python -u ./extract_features.py \
-  --input_slide <slide> \
+  --slide <slide> \
   --output_dir <output_dir> \
   --batch_size 16 \
   --workers 4
@@ -54,7 +54,7 @@ python -u ./extract_features.py \
 
 **Arguments:**
 
-- `--input_slide`: Path to the input WSI (.mrxs, .tiff, .svs, etc.)
+- `--slide`: Path to the input WSI (.mrxs, .tiff, .svs, etc.)
 - `--output_dir`: Directory to save .h5 feature files
 - `--hf_token`: Hugging Face token (optional; use if you don't have a cached login)
 - `--tile_size`: Tile size in micrometers or pixels
@@ -109,7 +109,7 @@ Generate POLE mutation predictions and calibrated probabilities:
 ```bash
 python ./inference.py \
   --manifest_test manifest_test.csv \
-  --checkpoint_POLARIX_model checkpoints/POLARIX.pt \
+  --checkpoint checkpoints/POLARIX.pt \
   --checkpoint_platt_model checkpoints/POLARIX_PlattScaler.pkl \
   --data_features_dir data/hoptimus1_features_180um_rawweight \
   --workers 4
@@ -118,7 +118,7 @@ python ./inference.py \
 **Arguments:**
 
 - `--manifest_test`: CSV listing slides for testing
-- `--checkpoint_POLARIX_model`: Path to trained model checkpoint
+- `--checkpoint`: Path to trained model checkpoint
 - `--checkpoint_platt_model`: Platt scaler for calibration
 - `--data_features_dir`: Directory with feature .h5 files
 - `--workers`: Number of data-loading workers
@@ -134,25 +134,29 @@ POLARIX uses **attention-based interpretability** to ensure predictions are grou
 Visualize attention heatmaps for a specific slide (requires the corresponding feature file and model checkpoint):
 
 ```bash
-python visualize_heatmap.py \
-  --input_slide data/slides/<slide_name>.svs \
-  --features_path data/hoptimus1_features/<slide_name>_features.h5 \
-  --checkpoint_POLARIX_model checkpoints/polarix.pt \
+python heatmap.py \
+  --slide data/slides/<slide_name>.svs \
+  --features data/hoptimus1_features/<slide_name>_features.h5 \
+  --checkpoint checkpoints/polarix.pt \
   --output_dir results/heatmaps/
 ```
+
+Set `--features` to the `.h5` feature bag produced by `extract_features.py` for the same slide.
+
+This command now also emits `<slide_id>_tiles.jsonl` beside the rendered heatmap. Each line is a GeoJSON Feature containing the tile polygon and its attention score, so you can load the tiles into GIS tooling or downstream analyses.
 
 Or use the demo script, which generates a composite image with the slide ID, prediction, clinical recommendation (NGS or Rule-Out), and attention heatmap:
 
 ```bash
 python demo.py \
-  --input_slide data/slides/<slide_name>.svs \
-  --features_path data/hoptimus1_features/<slide_name>_features.h5 \
-  --checkpoint_POLARIX_model checkpoints/polarix.pt \
+  --slide data/slides/<slide_name>.svs \
+  --features data/hoptimus1_features/<slide_name>_features.h5 \
+  --checkpoint checkpoints/polarix.pt \
   --checkpoint_platt_model checkpoints/polarix_platt.pkl \
   --output_dir results/heatmaps/
 ```
 
-Set `--features_path` to the `.h5` feature bag produced by `extract_features.py` for the same slide.
+For the demo script, set `--features` to the `.h5` feature bag produced by `extract_features.py` for the same slide.
 
 ![Attention Heatmaps](figures/POLARIX_demo.png)
 

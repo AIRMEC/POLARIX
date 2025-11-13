@@ -253,7 +253,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Preprocessing script")
 
     parser.add_argument(
-        "--input_slide",
+        "--slide",
         type=str,
         help="Path to input WSI file",
     )
@@ -288,7 +288,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     # PREPARE OUTPUT FILE PATHS AND CHECK EXISTENCE
-    slide_id, _ = os.path.splitext(os.path.basename(args.input_slide))
+    slide_id, _ = os.path.splitext(os.path.basename(args.slide))
     wip_file_path = os.path.join(args.output_dir, slide_id + "_wip.h5")
     output_file_path = os.path.join(args.output_dir, slide_id + "_features.h5")
     os.makedirs(args.output_dir, exist_ok=True)
@@ -296,7 +296,7 @@ if __name__ == "__main__":
         raise Exception(f"{output_file_path} already exists")
 
     # OPEN SLIDE AND SELECT SEGMENTATION LEVEL
-    wsi = openslide.open_slide(args.input_slide)
+    wsi = openslide.open_slide(args.slide)
     seg_level = wsi.get_best_level_for_downsample(64)
 
     # SEGMENTATION AND TILING PROCEDURE
