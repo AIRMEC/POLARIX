@@ -143,7 +143,7 @@ python heatmap.py \
 
 Set `--features` to the `.h5` feature bag produced by `extract_features.py` for the same slide.
 
-This command now also emits `<slide_id>_tiles.jsonl` beside the rendered heatmap. Each line is a GeoJSON Feature containing the tile polygon and its attention score, so you can load the tiles into GIS tooling or downstream analyses.
+This command now also emits `<slide_id>_tiles.jsonl` and `<slide_id>_tissue.geojson` beside the rendered heatmap. Each line in `<slide_id>_tiles.jsonl` is a GeoJSON Feature containing the tile polygon and its attention score, and `<slide_id>_tissue.geojson` contains the tissue mask as a Polygon or MultiPolygon. These files can be loaded into e.g. QuPath-like tooling or used for downstream analyses.
 
 Or use the demo script, which generates a composite image with the slide ID, prediction, clinical recommendation (NGS or Rule-Out), and attention heatmap:
 

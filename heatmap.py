@@ -8,6 +8,7 @@ from PIL import Image
 from shapely.geometry import Polygon, box, mapping
 from heatmap_utils import (
     build_scoremap,
+    create_tissue_mask,
     get_display_image,
     get_tile,
     predict_attention_matrix,
@@ -91,9 +92,9 @@ def main(args):
     result_rgba = result.convert("RGBA")
     result_rgba.save(outpath)
 
-    geojson_path = os.path.join(slide_dir, f"{slide_id}_tiles.jsonl")
-    print(f"Exporting {geojson_path}")
-    with open(geojson_path, "w") as tiles_file:
+    tiles_jsonl_path = os.path.join(slide_dir, f"{slide_id}_tiles.jsonl")
+    print(f"Exporting {tiles_jsonl_path}")
+    with open(tiles_jsonl_path, "w") as tiles_file:
         for attention, normed_attention, rect in zip(
             raw_attn.tolist(), normed_attn.tolist(), coords
         ):
@@ -108,10 +109,22 @@ def main(args):
             }
             tiles_file.write(json.dumps(feature) + "\n")
 
-    print("Finished Full attention map, now creating top-10 tiles...")
+    # Tissue mask isn't actually used by the rest of this script, but we export it for completeness to facilitate downstream QC.
+    tissue_mask_path = os.path.join(slide_dir, f"{slide_id}_tissue.geojson")
+    print(f"Exporting {tissue_mask_path}...")
+    seg_level = wsi.get_best_level_for_downsample(64)
+    tissue_mask_scaled = create_tissue_mask(wsi, seg_level)
+    with open(tissue_mask_path, "w") as mask_file:
+        json.dump(
+            {
+                "type": "Feature",
+                "geometry": mapping(tissue_mask_scaled),
+            },
+            mask_file,
+        )
 
+    print("Exporting top-10 tiles...")
     top_indices = np.argsort(raw_attn)[::-1][:10]
-
     regions = []
     for i, idx in enumerate(top_indices):
         tile_polygon = rect_to_polygon(coords[idx])
