@@ -1,6 +1,6 @@
 # POLARIX: POLE Analysis through Rapid Image-based Screening in Endometrial Cancer
 
-![POLARIX Logo](figures/POLARIX_logo.png)
+![POLARIX Logo](figures/POLARIX.svg)
 
 POLARIX is a deep learning model that predicts **POLE mutation status** directly from **hematoxylin and eosin (H&E) whole slide images (WSIs)** in endometrial cancer. It combines calibrated decision thresholds with explainable AI methods to enable molecular screening for endometrial cancer, even in resource-constrained environments.
 
@@ -164,9 +164,7 @@ For the demo script, set `--features` to the `.h5` feature bag produced by `extr
 
 ## Citation
 
-If you use POLARIX in your research:
-
-> van den Berg et al., "POLARIX: Deep learning–based POLE mutation screening from histopathology in endometrial cancer." _Journal Name_, [submitted].
+> van den Berg et al., "POLARIX: Deep learning–based POLE mutation screening from histopathology in endometrial cancer.", [submitted].
 
 ---
 
