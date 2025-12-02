@@ -1,8 +1,8 @@
-# POLARIX: POLE Analysis through Rapid Image-based Screening in Endometrial Cancer
+# POLARIX: _POLE_ Analysis through Rapid Image-based Screening in Endometrial Cancer
 
 ![POLARIX Logo](figures/POLARIX.svg)
 
-POLARIX is a deep learning model that predicts **POLE mutation status** directly from **hematoxylin and eosin (H&E) whole slide images (WSIs)** in endometrial cancer. It combines calibrated decision thresholds with explainable AI methods to enable molecular screening for endometrial cancer, even in resource-constrained environments.
+POLARIX is a deep learning model that predicts **_POLE_ mutation status** directly from **hematoxylin and eosin (H&E) whole slide images (WSIs)** in endometrial cancer. It combines calibrated decision thresholds with explainable AI methods to enable molecular screening for endometrial cancer, even in resource-constrained environments.
 
 The model has been validated across multiple independent cohorts with **AUROC > 0.95**.
 
@@ -14,9 +14,9 @@ The model has been validated across multiple independent cohorts with **AUROC > 
 
 **Training data:** Three randomized trials, six retrospective clinical cohorts, and two public datasets—the largest EC database compiled to date
 
-**Task:** Binary classification (POLE-mutant vs POLE-wildtype)
+**Task:** Binary classification (_POLE_-mutant vs _POLE_-wildtype)
 
-**Explainability:** Attention heatmaps pinpoint morphologic features associated with POLE mutations
+**Explainability:** Attention heatmaps pinpoint morphologic features associated with _POLE_ mutations
 
 **Output:** Calibrated prediction scores with LOW, MID, and HIGH decision thresholds for flexible deployment
 
@@ -104,7 +104,7 @@ Model checkpoints, Platt scaler artifacts, predictions, and TensorBoard logs are
 
 ### Inference
 
-Generate POLE mutation predictions and calibrated probabilities:
+Generate _POLE_ mutation predictions and calibrated probabilities:
 
 ```bash
 python ./inference.py \
@@ -164,7 +164,7 @@ For the demo script, set `--features` to the `.h5` feature bag produced by `extr
 
 ## Citation
 
-> van den Berg et al., "POLARIX: Deep learning–based POLE mutation screening from histopathology in endometrial cancer.", [submitted].
+> van den Berg et al., "POLARIX: Deep learning–based _POLE_ mutation screening from histopathology in endometrial cancer.", [submitted].
 
 ---
 
