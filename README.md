@@ -18,7 +18,7 @@ The model has been validated across multiple independent cohorts with **AUROC > 
 
 **Explainability:** Attention heatmaps pinpoint morphologic features associated with POLE mutations
 
-**Output:** Calibrated prediction scores with LOW, MED, and HIGH decision thresholds for flexible deployment
+**Output:** Calibrated prediction scores with LOW, MID, and HIGH decision thresholds for flexible deployment
 
 ![Clinical Implementation](figures/POLARIX_implementation.png)
 
