@@ -20,7 +20,7 @@ The model has been validated across multiple independent cohorts with **AUROC > 
 
 **Output:** Calibrated prediction scores with LOW, MID, and HIGH decision thresholds for flexible deployment
 
-![Clinical Implementation](figures/POLARIX_implementation.png)
+![Clinical Implementation](figures/POLARIX_implementation.svg)
 
 ---
 
