@@ -164,7 +164,7 @@ For the demo script, set `--features` to the `.h5` feature bag produced by `extr
 
 ## Citation
 
-> van den Berg et al., "POLARIX: Deep learning–based _POLE_ mutation screening from histopathology in endometrial cancer.", [submitted].
+> van den Berg et al., "Deep Learning-Based Screening for _POLE_ mutations on Histopathology Slides in Endometrial Cancer", medRxiv 2026.02.06.26345335; doi: https://doi.org/10.64898/2026.02.06.26345335.
 
 ---
 
